@@ -1,4 +1,10 @@
-import { fireEvent, render, screen } from '@testing-library/react'
+import {
+    fireEvent,
+    getByRole,
+    getByTestId,
+    render,
+    screen,
+} from '@testing-library/react'
 import App from '../src/App'
 import DisabledButton from '../src/components/DisabledButton'
 import { describe, expect, it, vi } from 'vitest'
@@ -39,15 +45,16 @@ describe('App', () => {
 
         it('should be clickable', () => {
             const fn = vi.fn()
-            fn('hello')
-            render(
+            const { getByTestId } = render(
                 <DisabledButton
                     id='submit'
                     type='submit'
                     text='Login'
-                    disabled={true}
+                    disabled={false}
+                    clickFn={fn}
                 />
             )
+            fireEvent.click(getByTestId('submit-button'))
             expect(fn).toHaveBeenCalled()
         })
 
